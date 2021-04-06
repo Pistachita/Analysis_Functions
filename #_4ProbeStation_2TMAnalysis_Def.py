@@ -9,7 +9,6 @@ import os
 import numpy as np
 from scipy import stats
 import pandas as pd
-from scipy import stats
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 plt.rcParams.update({'font.size': 17})
@@ -17,7 +16,7 @@ plt.rcParams.update({'font.size': 17})
 fig_size = (15,10)
 f = plt.figure(figsize=fig_size)
 
-def plot_2TM_probestation(file_name,sample,fig=f,markers='',legend=''):
+def plot_2TM_probestation(file_name,fig=f,markers='',legend=''):
     directory=os.getcwd()
     file=directory+'\\'+file_name
     df1=pd.read_csv(file)
@@ -40,16 +39,24 @@ def plot_2TM_probestation(file_name,sample,fig=f,markers='',legend=''):
     
     return(f)
 
-f=plot_2TM_probestation('I06_1RTA_contact3to4_1Vsd.csv', 'I06',f,'ro','1stRTA')
+f=plot_2TM_probestation('I06_5thRTA_contact1GNDto3SMU_1-5Vsd.csv',f,'ro','5thRTA')
 
 #plt.ticklabel_format(axis='x',style='scientific',scilimits=(0,0))
-#plt.ticklabel_format(axis='y',style='scientific',scilimits=(0,0))
 
+#plt.ticklabel_format(axis='y',style='scientific',scilimits=(0,0))
+#%%
+import os
+import numpy as np
+from scipy import stats
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+plt.rcParams.update({'font.size': 17})
 
 fig_size = (15,10)
 j = plt.figure(figsize=fig_size)
 
-def LinReg_2TM_probestation(file_name,sample,Vfwd,Vrvs,deltaV,points,hysteresis=True):
+def LinReg_2TM_probestation(file_name,Vfwd,Vrvs,deltaV,points,hysteresis=True):
     directory=os.getcwd()
     file=directory+'\\'+file_name
     df1=pd.read_csv(file)
@@ -85,16 +92,23 @@ def LinReg_2TM_probestation(file_name,sample,Vfwd,Vrvs,deltaV,points,hysteresis=
     return(voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs)
 
 
-(voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs) = LinReg_2TM_probestation('I06_2RTA_contact3to4_1Vsd_bis.csv','I06',1,-0.5,0.25,5,j,'ro','2rdRTA',hysteresis=True)
+(voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs) = LinReg_2TM_probestation('I06_1RTA_contact1to2_0.8Vsd.csv',0.7,-0.5,0.25,5,hysteresis=False)
 
 #plt.ticklabel_format(axis='x',style='scientific',scilimits=(0,0))
 #plt.ticklabel_format(axis='y',style='scientific',scilimits=(0,0))
 
 
 #%%
+import os
+import numpy as np
+from scipy import stats
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+plt.rcParams.update({'font.size': 17})
 
-def Plots_2TM_probestation(file_name,sample,Vfwd,Vrvs,deltaV,points,markers='',legend='',hysteresis=True):
-    (voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs)=LinReg_2TM_probestation(file_name, sample, Vfwd, Vrvs, deltaV, points)
+def Plots_2TM_probestation(file_name,Vfwd,Vrvs,deltaV,points,markers='',legend='',hysteresis=True):
+    (voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs)=LinReg_2TM_probestation(file_name, Vfwd, Vrvs, deltaV, points, hysteresis)
     string2Tfwd='2 Terminal R = ' + str(round(1/slope2Tfwd, 3)) + ' MOhm'
     string2Trvs='2 Terminal R = ' + str(round(1/slope2Trvs, 3)) + ' MOhm'
     title1=file_name.strip('.csv')
@@ -110,14 +124,21 @@ def Plots_2TM_probestation(file_name,sample,Vfwd,Vrvs,deltaV,points,markers='',l
     return(j)
 
 
-j = Plots_2TM_probestation('I06_2RTA_contact3to4_1Vsd_bis.csv','I06',1,-0.5,0.25,5,'ro','2rdRTA',hysteresis=True)
+j = Plots_2TM_probestation('I06_5thRTA_contact4GNDto3SMU_1-5Vsd.csv',1.5,-1,0.25,5,'ro','5thRTA',hysteresis=True)
 #plt.ticklabel_format(axis='x',style='scientific',scilimits=(0,0))
 #plt.ticklabel_format(axis='y',style='scientific',scilimits=(0,0))
 
 
 #%% Diff resistance
+import os
+import numpy as np
+from scipy import stats
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+plt.rcParams.update({'font.size': 17})
 
-def diff_resistance(file_name,sample,fig=f,markers='',legend=''):
+def diff_resistance(file_name,fig=f,markers='',legend=''):
     directory=os.getcwd()
     file=directory+'\\'+file_name
     df1=pd.read_csv(file)
@@ -147,4 +168,106 @@ def diff_resistance(file_name,sample,fig=f,markers='',legend=''):
     return(f)
 
 h = plt.figure(figsize=fig_size)
-h = diff_resistance('I06_1RTA_contact3to4_1Vsd.csv', 'I06',h,'r-','1stRTA')
+h = diff_resistance('I06_5thRTA_contact4GNDto3SMU_1-5Vsd.csv', h,'r-','5thRTA')
+
+
+#%% plot of all files in a folder, different sizes of, meant for after RTA
+import glob
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 17})
+
+colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C4'}
+
+def multiplePlots(j,titulo, labels):
+    files=glob.glob('*.csv')
+    times={}
+    currents={}
+    voltages={}
+    
+    i=0
+    for file in files:
+        df=pd.read_csv(file)
+        matrix=df.to_numpy()
+        times[i]=matrix[:,0]
+        currents[i]=matrix[:,1]
+        voltages[i]=matrix[:,2]
+        i=i+1
+    n, ax = plt.subplots()
+    for i in range(j):
+        ax.plot(voltages[i], currents[i]/1e-6,label=labels[i],color=colors[i])
+        ax.set_title(titulo)
+        ax.grid(b='True',which='both',axis='both')
+        ax.set_xlabel('Voltage (V)')
+        ax.set_ylabel('Current (uA)')
+        ax.legend(loc='upper left')
+        
+    return(n)
+
+labels={0:'contact1to2',1:'contact1to3',2:'contact1to4',3:'contact2to3',4:'contact2to4',5:'contact3to4'}
+multiplePlots(6,'after 5th RTA',labels)
+plt.text(0.75,2.8,'R=0.27 MOhm')
+plt.text(1.1,-0.3,'R=2 MOhm')
+plt.text(1.5,2,'R=0.15 MOhm')
+plt.text(-1.3,-5.5,'R=0.14 MOhm')
+plt.text(-1.5,0,'R=2.3 MOhm')
+
+
+#%%
+#plot of all files in a folder, different sizes of arrays, meant for same pair of contacts
+#careful with hysteresis, all files must have the same hysteresys value
+
+import glob
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 17})
+
+#colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2'} #with repetition after 1st RTA
+colors={0:'C0',1:'C6',2:'C9',3:'C2'}
+def multiplePlots_LinReg(j,titulo, labels, Vfwd, Vrvs, deltaV, points, hysteresis=True):
+    files=glob.glob('*.csv')
+    times={}
+    currents={}
+    voltages={}
+    V_fwd={}
+    slope2Tfwd={}
+    intercept2Tfwd={}
+    V_rvs={}
+    slope2Trvs={}
+    intercept2Trvs={}
+    string2Tfwd={}
+    string2Trvs={}
+    i=0
+    for file in files:
+        df=pd.read_csv(file)
+        matrix=df.to_numpy()
+        times[i]=matrix[:,0]
+        currents[i]=matrix[:,1]
+        voltages[i]=matrix[:,2]
+        (V,I,V_fwd[i],slope2Tfwd[i],intercept2Tfwd[i],V_rvs[i],slope2Trvs[i],intercept2Trvs[i])=LinReg_2TM_probestation(file, Vfwd[i], Vrvs[i], deltaV, points, hysteresis)
+        string2Tfwd[i]='2TM fwd R = ' + str(round(1/slope2Tfwd[i], 2)) + ' MOhm'
+        string2Trvs[i]='2TM rvs R = ' + str(round(1/slope2Trvs[i], 2)) + ' MOhm'
+        i=i+1
+        
+    n, ax = plt.subplots()
+    for x in range(j):
+        ax.set_xlim([-2.8,2.1])
+        ax.plot(voltages[x], currents[x]/1e-6,label=labels[x],color=colors[x])
+        ax.plot(V_fwd[x],V_fwd[x]*slope2Tfwd[x]+intercept2Tfwd[x],'--',label=string2Tfwd[x])
+        ax.plot(V_rvs[x],V_rvs[x]*slope2Trvs[x]+intercept2Trvs[x],'--',label=string2Trvs[x])
+        ax.set_title(titulo)
+        ax.grid(b='True',which='both',axis='both')
+        ax.set_xlabel('Voltage (V)')
+        ax.set_ylabel('Current (uA)')
+        ax.legend(loc='upper left')
+        
+    return(n)
+Vfwd={0:0.8,1:1,2:1,3:1.5}
+Vrvs={0:-0.5,1:-0.7,2:-0.7,3:-1.2}
+deltaV=0.25
+points=5
+labels={0:'1st RTA',1:'2nd RTA',2:'3rd RTA',3:'5th RTA'}
+multiplePlots_LinReg(4,'Contacts 2 to 3',labels,Vfwd,Vrvs,deltaV,points,hysteresis=False)
+    

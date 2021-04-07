@@ -44,7 +44,8 @@ f=plot_2TM_probestation('I06_5thRTA_contact1GNDto3SMU_1-5Vsd.csv',f,'ro','5thRTA
 #plt.ticklabel_format(axis='x',style='scientific',scilimits=(0,0))
 
 #plt.ticklabel_format(axis='y',style='scientific',scilimits=(0,0))
-#%%
+#%% Linear regresion of the IV curve, being x voltage, meaning resistance = 1/slope
+#1/slope already in MOhm, since the linear regression was done with I in uA
 import os
 import numpy as np
 from scipy import stats
@@ -92,13 +93,14 @@ def LinReg_2TM_probestation(file_name,Vfwd,Vrvs,deltaV,points,hysteresis=True):
     return(voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs)
 
 
-(voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs) = LinReg_2TM_probestation('I06_1RTA_contact1to2_0.8Vsd.csv',0.7,-0.5,0.25,5,hysteresis=False)
+(voltage_SD1,currentuA1,V_fwd,slope2Tfwd,intercept2Tfwd,V_rvs,slope2Trvs,intercept2Trvs) = LinReg_2TM_probestation('I07_contact1GNDto2SMU_1-5Vsd_bis.csv',0.7,-0.5,0.25,5,hysteresis=True)
 
 #plt.ticklabel_format(axis='x',style='scientific',scilimits=(0,0))
 #plt.ticklabel_format(axis='y',style='scientific',scilimits=(0,0))
 
 
 #%%
+#1/slope already in MOhm, since the linear regression was done with I in uA
 import os
 import numpy as np
 from scipy import stats
@@ -124,7 +126,7 @@ def Plots_2TM_probestation(file_name,Vfwd,Vrvs,deltaV,points,markers='',legend='
     return(j)
 
 
-j = Plots_2TM_probestation('I06_5thRTA_contact4GNDto3SMU_1-5Vsd.csv',1.5,-1,0.25,5,'ro','5thRTA',hysteresis=True)
+j = Plots_2TM_probestation('I09_contact2GNDto4SMU_3Vsd.csv',2-2,0.25,5,'ro','5thRTA',hysteresis=False)
 #plt.ticklabel_format(axis='x',style='scientific',scilimits=(0,0))
 #plt.ticklabel_format(axis='y',style='scientific',scilimits=(0,0))
 
@@ -171,7 +173,7 @@ h = plt.figure(figsize=fig_size)
 h = diff_resistance('I06_5thRTA_contact4GNDto3SMU_1-5Vsd.csv', h,'r-','5thRTA')
 
 
-#%% plot of all files in a folder, different sizes of, meant for after RTA
+#%% plot of all files in a folder, different number of points in different measurements, meant for after RTA
 import glob
 import numpy as np
 import pandas as pd
@@ -179,6 +181,7 @@ import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 17})
 
 colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C4'}
+#colors={0:'C3',1:'C6',2:'C9',3:'C2',4:'C4'}
 
 def multiplePlots(j,titulo, labels):
     files=glob.glob('*.csv')
@@ -205,18 +208,21 @@ def multiplePlots(j,titulo, labels):
         
     return(n)
 
+
 labels={0:'contact1to2',1:'contact1to3',2:'contact1to4',3:'contact2to3',4:'contact2to4',5:'contact3to4'}
-multiplePlots(6,'after 5th RTA',labels)
-plt.text(0.75,2.8,'R=0.27 MOhm')
-plt.text(1.1,-0.3,'R=2 MOhm')
-plt.text(1.5,2,'R=0.15 MOhm')
-plt.text(-1.3,-5.5,'R=0.14 MOhm')
-plt.text(-1.5,0,'R=2.3 MOhm')
+#labels={0:'contact1to3',1:'contact1to4',2:'contact2to3',3:'contact2to4',4:'contact3to4'}
+multiplePlots(6,'I06 after 1stRTA',labels)
+#plt.text(1.2,1.2,'R=1.8 kOhm')
+#plt.text(-1.9,-2.5,'R=1.03 MOhm')
+# plt.text(1.5,2,'R=0.15 MOhm')
+# plt.text(-1.3,-5.5,'R=0.14 MOhm')
+# plt.text(-1.5,0,'R=2.3 MOhm')
 
 
 #%%
 #plot of all files in a folder, different sizes of arrays, meant for same pair of contacts
 #careful with hysteresis, all files must have the same hysteresys value
+#1/slope already in MOhm, since the linear regression was done with I in uA
 
 import glob
 import numpy as np

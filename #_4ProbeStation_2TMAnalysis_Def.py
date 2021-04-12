@@ -173,14 +173,16 @@ h = plt.figure(figsize=fig_size)
 h = diff_resistance('I06_5thRTA_contact4GNDto3SMU_1-5Vsd.csv', h,'r-','5thRTA')
 
 
-#%% plot of all files in a folder, different number of points in different measurements, meant for after RTA
+#%% plot up to 10 files in a folder, different number of points in different measurements, meant for after RTA
 import glob
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 17})
+fig_size = (15,10)
 
-colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C4'}
+
+colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C1',6:'C4',7:'C5',8:'C7',9:'C8'} 
 #colors={0:'C3',1:'C6',2:'C9',3:'C2',4:'C4'}
 
 def multiplePlots(j,titulo, labels):
@@ -197,7 +199,7 @@ def multiplePlots(j,titulo, labels):
         currents[i]=matrix[:,1]
         voltages[i]=matrix[:,2]
         i=i+1
-    n, ax = plt.subplots()
+    n, ax = plt.subplots(figsize=fig_size)
     for i in range(j):
         ax.plot(voltages[i], currents[i]/1e-6,label=labels[i],color=colors[i])
         ax.set_title(titulo)
@@ -209,9 +211,10 @@ def multiplePlots(j,titulo, labels):
     return(n)
 
 
-labels={0:'contact1to2',1:'contact1to3',2:'contact1to4',3:'contact2to3',4:'contact2to4',5:'contact3to4'}
+#labels={0:'contact1to2',1:'contact1to3',2:'contact1to4',3:'contact2to3',4:'contact2to4',5:'contact3to4'}
 #labels={0:'contact1to3',1:'contact1to4',2:'contact2to3',3:'contact2to4',4:'contact3to4'}
-multiplePlots(6,'I06 after 1stRTA',labels)
+labels={0:'1st try',1:'2nd try',2:'3rd try',3:'4th try',4:'5th try',5:'6th try',6:'7th try',7:'8th try',8:'9th try',9:'10th try'}
+multiplePlots(8,'contact 3 to 4',labels)
 #plt.text(1.2,1.2,'R=1.8 kOhm')
 #plt.text(-1.9,-2.5,'R=1.03 MOhm')
 # plt.text(1.5,2,'R=0.15 MOhm')
@@ -229,9 +232,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 17})
+fig_size = (15,15)
 
-#colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2'} #with repetition after 1st RTA
-colors={0:'C0',1:'C6',2:'C9',3:'C2'}
+
+
+colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C1',6:'C4',7:'C5',8:'C7',9:'C8'} 
+#colors={0:'C0',1:'C6',2:'C9',3:'C2'}
+#colors={0:'C0',1:'C6',2:'C9'}
 def multiplePlots_LinReg(j,titulo, labels, Vfwd, Vrvs, deltaV, points, hysteresis=True):
     files=glob.glob('*.csv')
     times={}
@@ -253,13 +260,13 @@ def multiplePlots_LinReg(j,titulo, labels, Vfwd, Vrvs, deltaV, points, hysteresi
         currents[i]=matrix[:,1]
         voltages[i]=matrix[:,2]
         (V,I,V_fwd[i],slope2Tfwd[i],intercept2Tfwd[i],V_rvs[i],slope2Trvs[i],intercept2Trvs[i])=LinReg_2TM_probestation(file, Vfwd[i], Vrvs[i], deltaV, points, hysteresis)
-        string2Tfwd[i]='2TM fwd R = ' + str(round(1/slope2Tfwd[i], 2)) + ' MOhm'
-        string2Trvs[i]='2TM rvs R = ' + str(round(1/slope2Trvs[i], 2)) + ' MOhm'
+        string2Tfwd[i]='2TM fwd R = ' + str(round(1/slope2Tfwd[i],2)) + ' MOhm'
+        string2Trvs[i]='2TM rvs R = ' + str(round(1/slope2Trvs[i],2)) + ' MOhm'
         i=i+1
-        
-    n, ax = plt.subplots()
+    n, ax = plt.subplots(figsize=fig_size)
     for x in range(j):
-        ax.set_xlim([-2.8,2.1])
+        # ax.set_xlim([-0.006,0.004])
+        # ax.set_ylim([-0.2,2])
         ax.plot(voltages[x], currents[x]/1e-6,label=labels[x],color=colors[x])
         ax.plot(V_fwd[x],V_fwd[x]*slope2Tfwd[x]+intercept2Tfwd[x],'--',label=string2Tfwd[x])
         ax.plot(V_rvs[x],V_rvs[x]*slope2Trvs[x]+intercept2Trvs[x],'--',label=string2Trvs[x])
@@ -270,10 +277,10 @@ def multiplePlots_LinReg(j,titulo, labels, Vfwd, Vrvs, deltaV, points, hysteresi
         ax.legend(loc='upper left')
         
     return(n)
-Vfwd={0:0.8,1:1,2:1,3:1.5}
-Vrvs={0:-0.5,1:-0.7,2:-0.7,3:-1.2}
-deltaV=0.25
+Vfwd={0:1,1:3,2:3,3:3,4:3,5:2,6:2.8,7:3,8:3,9:3}
+Vrvs={0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:1,8:0,9:0}
+deltaV=0.6
 points=5
-labels={0:'1st RTA',1:'2nd RTA',2:'3rd RTA',3:'5th RTA'}
-multiplePlots_LinReg(4,'Contacts 2 to 3',labels,Vfwd,Vrvs,deltaV,points,hysteresis=False)
+labels={0:'1st try',1:'2nd try',2:'3rd try',3:'4th try',4:'5th try',5:'6th try',6:'7th try',7:'8th try',8:'9th try',9:'10th try'}
+multiplePlots_LinReg(10,'contact 2 to 4',labels,Vfwd,Vrvs,deltaV,points,hysteresis=True)
     

@@ -39,7 +39,7 @@ def plot_2TM_probestation(file_name,fig=f,markers='',legend=''):
     
     return(f)
 
-f=plot_2TM_probestation('I06_5thRTA_contact1GNDto3SMU_1-5Vsd.csv',f,'ro','5thRTA')
+f=plot_2TM_probestation('M2-B_noRTA_1SMU_VgGND_1.5V_leak.csv',f,'ro','noRTA')
 
 #plt.ticklabel_format(axis='x',style='scientific',scilimits=(0,0))
 
@@ -173,7 +173,7 @@ h = plt.figure(figsize=fig_size)
 h = diff_resistance('I06_5thRTA_contact4GNDto3SMU_1-5Vsd.csv', h,'r-','5thRTA')
 
 
-#%% plot up to 10 files in a folder, different number of points in different measurements, meant for after RTA
+#%% plot up to x files in a folder, different number of points in different measurements, meant for after RTA
 import glob
 import numpy as np
 import pandas as pd
@@ -182,7 +182,7 @@ plt.rcParams.update({'font.size': 17})
 fig_size = (15,10)
 
 
-colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C1',6:'C4',7:'C5',8:'C7',9:'C8'} 
+colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C1',6:'C4',7:'C5',8:'C7',9:'C8',10:'C0',11:'C3',12:'C6',13:'C9',14:'C2',15:'C1',16:'C4',17:'C5',18:'C7',19:'C8',20:'C0',21:'C3',22:'C6',23:'C9',24:'C2',25:'C1',26:'C4',27:'C5',28:'C7',29:'C8'} 
 #colors={0:'C3',1:'C6',2:'C9',3:'C2',4:'C4'}
 
 def multiplePlots(j,titulo, labels):
@@ -206,15 +206,28 @@ def multiplePlots(j,titulo, labels):
         ax.grid(b='True',which='both',axis='both')
         ax.set_xlabel('Voltage (V)')
         ax.set_ylabel('Current (uA)')
-        ax.legend(loc='upper left')
+        #ax.legend(loc='upper left')
         
     return(n)
 
 
-#labels={0:'contact1to2',1:'contact1to3',2:'contact1to4',3:'contact2to3',4:'contact2to4',5:'contact3to4'}
+labels={0:'1-source 2-drain',
+        1:'1-source 3-drain',
+        2:'1-source 4-drain',
+        3:'2-source 1-drain',
+        4:'2-source 3-drain',
+        5:'2-source 4-drain',
+        6:'3-source 1-drain',
+        7:'3-source 2-drain',
+        8:'3-source 4-drain',
+        9:'4-source 1-drain',
+        10:'4-source 2-drain',
+        11:'4-source 3-drain',
+        12:'C6',        
+        13:'C9',14:'C2',15:'C1',16:'C4',17:'C5',18:'C7',19:'C8',20:'C0',21:'C3',22:'C6',23:'C9',24:'C2',25:'C1',26:'C4',27:'C5',28:'C7',29:'C8'} 
 #labels={0:'contact1to3',1:'contact1to4',2:'contact2to3',3:'contact2to4',4:'contact3to4'}
-labels={0:'1st try',1:'2nd try',2:'3rd try',3:'4th try',4:'5th try',5:'6th try',6:'7th try',7:'8th try',8:'9th try',9:'10th try'}
-multiplePlots(8,'contact 3 to 4',labels)
+#labels={0:'1st try',1:'2nd try',2:'3rd try',3:'4th try',4:'5th try',5:'6th try',6:'7th try',7:'8th try',8:'9th try',9:'10th try'}
+multiplePlots(18,'M2-D before RTA balanced measurements',labels)
 #plt.text(1.2,1.2,'R=1.8 kOhm')
 #plt.text(-1.9,-2.5,'R=1.03 MOhm')
 # plt.text(1.5,2,'R=0.15 MOhm')
@@ -232,7 +245,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 17})
-fig_size = (15,15)
+fig_size = (15,10)
 
 
 
@@ -260,8 +273,8 @@ def multiplePlots_LinReg(j,titulo, labels, Vfwd, Vrvs, deltaV, points, hysteresi
         currents[i]=matrix[:,1]
         voltages[i]=matrix[:,2]
         (V,I,V_fwd[i],slope2Tfwd[i],intercept2Tfwd[i],V_rvs[i],slope2Trvs[i],intercept2Trvs[i])=LinReg_2TM_probestation(file, Vfwd[i], Vrvs[i], deltaV, points, hysteresis)
-        string2Tfwd[i]='2TM fwd R = ' + str(round(1/slope2Tfwd[i],2)) + ' MOhm'
-        string2Trvs[i]='2TM rvs R = ' + str(round(1/slope2Trvs[i],2)) + ' MOhm'
+        string2Tfwd[i]='2TM fwd R = ' + str(round(1/slope2Tfwd[i],1)) + ' MOhm'
+        string2Trvs[i]='2TM rvs R = ' + str(round(1/slope2Trvs[i],1)) + ' MOhm'
         i=i+1
     n, ax = plt.subplots(figsize=fig_size)
     for x in range(j):
@@ -277,10 +290,114 @@ def multiplePlots_LinReg(j,titulo, labels, Vfwd, Vrvs, deltaV, points, hysteresi
         ax.legend(loc='upper left')
         
     return(n)
-Vfwd={0:1,1:3,2:3,3:3,4:3,5:2,6:2.8,7:3,8:3,9:3}
+Vfwd={0:2,1:2,2:2,3:2,4:2.75,5:2.75,6:2.75,7:3,8:3,9:3}
 Vrvs={0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:1,8:0,9:0}
 deltaV=0.6
 points=5
-labels={0:'1st try',1:'2nd try',2:'3rd try',3:'4th try',4:'5th try',5:'6th try',6:'7th try',7:'8th try',8:'9th try',9:'10th try'}
-multiplePlots_LinReg(10,'contact 2 to 4',labels,Vfwd,Vrvs,deltaV,points,hysteresis=True)
+labels={0:'1=GND,2=Vsd=Vg',1:'1=GND=Vg,2=Vsd',2:'2=GND,1=Vsd=Vg',3:'2=GND=Vg,1=Vsd',4:'contact2to4',5:'contact3to4'}
+#labels={0:'1st try',1:'2nd try',2:'3rd try',3:'4th try',4:'5th try',5:'6th try',6:'7th try',7:'8th try',8:'9th try',9:'10th try'}
+multiplePlots_LinReg(1,'M2-B before RTA changed polarity and Vg',labels,Vfwd,Vrvs,deltaV,points,hysteresis=True)
     
+
+#%%
+#gate sweep
+
+import glob
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 17})
+fig_size = (15,10)
+
+colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C1',6:'C4',7:'C5',8:'C7',9:'C8'} 
+
+def gateSweepPlots(j,file,titulo):
+    currents={}
+    voltages={}
+    labels={}
+    i=0
+    h=0
+    df=pd.read_csv(file)
+    matrix=df.to_numpy()
+    for h in range(j):
+        currents[h]=matrix[:,i+0]
+        voltages[h]=matrix[:,i+1]
+        labels[h]='Vg='+str(matrix[1,i+2])+'V'
+        i=i+6
+        h=h+1
+    n, ax = plt.subplots(figsize=fig_size)
+    for x in range(j):
+        ax.set_xlim([-2,4])
+        # ax.set_ylim([-0.2,2])
+        ax.plot(voltages[x], currents[x]/1e-6,label=labels[x],color=colors[x])
+        ax.set_title(titulo)
+        ax.grid(b='True',which='both',axis='both')
+        ax.set_xlabel('Voltage (V)')
+        ax.set_ylabel('Current (uA)')
+        ax.legend(loc='upper left')
+        
+    return(n)
+
+gateSweepPlots(5,'M2-B_noRTA_2GNDto1SMU_gateSweep_Vsd2V_dual.csv','M2-B before RTA')
+
+
+#%% plot up to 12 files in a folder, different number of points in different measurements, meant for balanced measurements
+import glob
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 17})
+fig_size = (15,10)
+
+
+colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C1',6:'C4',7:'C5',8:'C7',9:'C8',10:'C0',11:'C3',12:'C6',13:'C9',14:'C2',15:'C1',16:'C4',17:'C5',18:'C7',19:'C8',20:'C0',21:'C3',22:'C6',23:'C9',24:'C2',25:'C1',26:'C4',27:'C5',28:'C7',29:'C8'} 
+#colors={0:'C3',1:'C6',2:'C9',3:'C2',4:'C4'}
+
+def multiplePlots(j,titulo, labels):
+    files=glob.glob('*.csv')
+    times={}
+    currents={}
+    voltages={}
+    
+    i=0
+    for file in files:
+        df=pd.read_csv(file)
+        matrix=df.to_numpy()
+        currents[i]=matrix[:,7]
+        voltages[i]=matrix[:,6]
+        i=i+1
+    n, ax = plt.subplots(figsize=fig_size)
+    for i in range(j):
+        ax.set_xlim([-5.2,5.2])
+        ax.set_ylim([-1.5,1.5])
+        ax.plot(voltages[i], currents[i]/1e-6,label=labels[i],color=colors[i])
+        ax.set_title(titulo)
+        ax.grid(b='True',which='both',axis='both')
+        ax.set_xlabel('Voltage (V)')
+        ax.set_ylabel('Current (uA)')
+        #ax.legend(loc='lower right')
+        
+    return(n)
+
+
+labels={0:'1-source 2-drain',
+        1:'1-source 3-drain',
+        2:'1-source 4-drain',
+        3:'2-source 1-drain',
+        4:'2-source 3-drain',
+        5:'2-source 4-drain',
+        6:'3-source 1-drain',
+        7:'3-source 2-drain',
+        8:'3-source 4-drain',
+        9:'4-source 1-drain',
+        10:'4-source 2-drain',
+        11:'4-source 3-drain',
+        12:'C6',13:'C9',14:'C2',15:'C1',16:'C4',17:'C5',18:'C7',19:'C8',20:'C0',21:'C3',22:'C6',23:'C9',24:'C2',25:'C1',26:'C4',27:'C5',28:'C7',29:'C8'} 
+#labels={0:'contact1to3',1:'contact1to4',2:'contact2to3',3:'contact2to4',4:'contact3to4'}
+#labels={0:'1st try',1:'2nd try',2:'3rd try',3:'4th try',4:'5th try',5:'6th try',6:'7th try',7:'8th try',8:'9th try',9:'10th try'}
+multiplePlots(18,'M2-D before 5RTA balanced measurements',labels)
+#plt.text(1.2,1.2,'R=1.8 kOhm')
+#plt.text(-1.9,-2.5,'R=1.03 MOhm')
+# plt.text(1.5,2,'R=0.15 MOhm')
+# plt.text(-1.3,-5.5,'R=0.14 MOhm')
+# plt.text(-1.5,0,'R=2.3 MOhm')

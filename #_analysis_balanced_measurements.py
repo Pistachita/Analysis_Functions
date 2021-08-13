@@ -2,6 +2,8 @@
 """
 Created on Mon May 10 14:09:00 2021
 
+4-probe station measurements 
+
 @author: ayuso
 """
 # plot up to 12 files in a folder, different number of points in different measurements, meant for balanced measurements
@@ -12,14 +14,14 @@ import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 17})
 fig_size = (15,10)
 
-j=12
-titulo='M2-D 1stRTA balanced measurements'
+j=4
+titulo='I1 before RTA balanced measurements 15.07'
 colors={0:'C0',1:'C3',2:'C6',3:'C9',4:'C2',5:'C1',6:'C4',7:'C5',8:'C7',9:'C8',10:'C0',11:'C3',12:'C6',13:'C9',14:'C2',15:'C1',16:'C4',17:'C5',18:'C7',19:'C8',20:'C0',21:'C3',22:'C6',23:'C9',24:'C2',25:'C1',26:'C4',27:'C5',28:'C7',29:'C8'} 
 
-labels={0:'1-source 2-drain',
-        1:'1-source 3-drain',
-        2:'1-source 4-drain',
-        3:'2-source 1-drain',
+labels={0:'-source 1-drain custom',
+        1:'4-source 1-drain custom bis',
+        2:'4-source 1-drain normal',
+        3:'4-source 1-drain normal bis',
         4:'2-source 3-drain',
         5:'2-source 4-drain',
         6:'3-source 1-drain',
@@ -29,6 +31,11 @@ labels={0:'1-source 2-drain',
         10:'4-source 2-drain',
         11:'4-source 3-drain'
         } 
+
+
+# labels={0:'4-source 1-drain quiet',
+#         1:'4-source 1-drain quiet dual sweep',
+#         } 
 
 files=glob.glob('*.csv')
 currentsS={}
@@ -50,7 +57,7 @@ for file in files:
 n, ax = plt.subplots(figsize=fig_size)
 #ax.axvline(x=0.05,color='k')
 #ax.axvline(x=-0.05,color='k')
-ax.set_xlim(-25,13)
+#ax.set_xlim(-25,13)
 #ax.set_ylim(-1,1.5)
 for i in range(j):
     ax.plot(Voltage[i], currentsS[i]/1e-9,label=labels[i]+' S')
@@ -72,13 +79,13 @@ import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 17})
 fig_size = (15,10)
 
-j=4
-titulo='M2-D 1st RTA balanced measurements contacts 3 and 4'
+j=2
+titulo='I12 before RTA balanced measurements contacts 1 and 4'
 colors={0:'C0',1:'C3',2:'C9',3:'C6'} 
-labels={0:'3 Isource',
-        1:'4 Idrain',
-        2:'4 Isource',
-        3:'3 Idrain',
+labels={0:'1 Idrain',
+        1:'4 Isource',
+        # 2:'4 Isource',
+        # 3:'3 Idrain',
         } 
 files=glob.glob('*.csv')
 currents={}
@@ -97,11 +104,11 @@ for file in files:
     i=i+2
 n, ax = plt.subplots(figsize=fig_size)
 for i in range(j):
-    ax.plot(Voltage[i], currents[i]/1e-6,label=labels[i],color=colors[i])
+    ax.plot(Voltage[i], currents[i]/1e-9,label=labels[i],color=colors[i])
     ax.set_title(titulo)
     ax.grid(b='True',which='both',axis='both')
     ax.set_xlabel('Voltage source - Voltage drain (V)')
-    ax.set_ylabel('Current (uA)')
+    ax.set_ylabel('Current (nA)')
     ax.legend(loc='lower right')
     
 
